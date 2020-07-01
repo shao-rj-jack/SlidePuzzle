@@ -1,0 +1,249 @@
+`timescale 1ns/1ns
+
+module basicDisplay
+	(
+		clk,						//	On Board 50 MHz
+		// custom inputs and outputs
+		resetn,
+		address,
+		ID,
+		plot,
+		wipe,
+		done,
+		// The ports below are for the VGA output.  Do not change.
+		VGA_CLK,   				//	VGA Clock
+		VGA_HS,					//	VGA H_SYNC
+		VGA_VS,					//	VGA V_SYNC
+		VGA_BLANK_N,			//	VGA BLANK
+		VGA_SYNC_N,				//	VGA SYNC
+		VGA_R,   				//	VGA Red[9:0]
+		VGA_G,	 				//	VGA Green[9:0]
+		VGA_B   					//	VGA Blue[9:0]
+	);
+
+	input	clk;				//	50 MHz
+	input resetn;
+	input [3:0] address, ID;
+	input plot, wipe;
+	output done;
+	
+	// Do not change the following outputs
+	output			VGA_CLK;   				//	VGA Clock
+	output			VGA_HS;					//	VGA H_SYNC
+	output			VGA_VS;					//	VGA V_SYNC
+	output			VGA_BLANK_N;				//	VGA BLANK
+	output			VGA_SYNC_N;				//	VGA SYNC
+	output	[7:0]	VGA_R;   				//	VGA Red[7:0] Changed from 10 to 8-bit DAC
+	output	[7:0]	VGA_G;	 				//	VGA Green[7:0]
+	output	[7:0]	VGA_B;   				//	VGA Blue[7:0]
+	
+	wire [7:0] x;
+	wire [6:0] y;
+	wire writeEn;
+	
+	wire [5:0] colour;
+
+	// Create an Instance of a VGA controller - there can be only one!
+	// Define the number of colours as well as the initial background
+	// image file (.MIF) for the controller.
+	vga_adapter VGA(
+			.resetn(resetn),
+			.clock(clk),
+			.colour(colour),
+			.x(x),
+			.y(y),
+			.plot(writeEn),
+			/* Signals for the DAC to drive the monitor. */
+			.VGA_R(VGA_R),
+			.VGA_G(VGA_G),
+			.VGA_B(VGA_B),
+			.VGA_HS(VGA_HS),
+			.VGA_VS(VGA_VS),
+			.VGA_BLANK(VGA_BLANK_N),
+			.VGA_SYNC(VGA_SYNC_N),
+			.VGA_CLK(VGA_CLK));
+		defparam VGA.RESOLUTION = "160x120";
+		defparam VGA.MONOCHROME = "FALSE";
+		defparam VGA.BITS_PER_COLOUR_CHANNEL = 3;
+		defparam VGA.BACKGROUND_IMAGE = "default.mif";
+			
+	// Put your code here. Your code should produce signals x,y,colour and writeEn
+	// for the VGA controller, in addition to any other functionality your design may require.
+	
+	wire [5:0] colourIn;
+	assign colourIn[5:4] = 2'b00;
+	assign colourIn[3:0] = ID;
+	
+	wire black;
+	
+	wire [4:0] deltaX, deltaY;
+	wire [6:0] wipeX, wipeY;
+	
+	display_datapath d0(.address(address),
+							  .deltaX(deltaX),
+							  .deltaY(deltaY),
+							  .wipeX(wipeX),
+							  .wipeY(wipeY),
+							  .x(x),
+							  .y(y),
+							  .colour_in(colourIn),
+							  .black(black),
+							  .colour(colour));
+	
+	display_control c0(.clk(clk),
+							 .resetn(resetn),
+							 .plot(plot),
+							 .deltaX(deltaX),
+							 .deltaY(deltaY),
+							 .wipeX(wipeX),
+							 .wipeY(wipeY),
+							 .writeEn(writeEn),
+							 .wipe(wipe),
+							 .black(black),
+							 .done(done));
+	
+endmodule
+
+module display_datapath(address, deltaX, deltaY, wipeX, wipeY, x, y, colour_in, black, colour);
+	input [3:0] address;
+	input [5:0] colour_in;
+	input black;
+	
+	input [4:0] deltaX, deltaY;
+	input [6:0] wipeX, wipeY;
+
+	output reg [7:0] x;
+	output reg [6:0] y;
+	output reg [5:0] colour;
+	
+	reg [6:0] Qx, Qy;
+	
+	//Mux for Qx, Qy
+	always@(*) begin
+		case(address)
+			4'd0:  begin Qx =  28; Qy = 20; end
+			4'd1:  begin Qx =  54; Qy = 20; end
+			4'd2:  begin Qx =  80; Qy = 20; end
+			4'd3:  begin Qx = 106; Qy = 20; end
+			4'd4:  begin Qx =  28; Qy = 40; end
+			4'd5:  begin Qx =  54; Qy = 40; end
+			4'd6:  begin Qx =  80; Qy = 40; end
+			4'd7:  begin Qx = 106; Qy = 40; end
+			4'd8:  begin Qx =  28; Qy = 60; end
+			4'd9:  begin Qx =  54; Qy = 60; end
+			4'd10: begin Qx =  80; Qy = 60; end
+			4'd11: begin Qx = 106; Qy = 60; end
+			4'd12: begin Qx =  28; Qy = 80; end
+			4'd13: begin Qx =  54; Qy = 80; end
+			4'd14: begin Qx =  80; Qy = 80; end
+			4'd15: begin Qx = 106; Qy = 80; end
+		endcase
+	end
+	
+	//mux for wipe/draw
+	always@(*) begin
+		if(~black) begin
+			colour = colour_in;
+			x = 8'd0 + Qx + deltaX;
+			y = 7'd0 + Qy + deltaY;
+		end else begin
+			colour = 6'b00000;
+			x = 8'd28 + wipeX;
+			y = 7'd20 + wipeY;
+		end
+	end
+endmodule
+
+module display_control(clk, resetn, plot, deltaX, deltaY, wipeX, wipeY, writeEn, wipe, black, done);
+	input clk, resetn, plot, wipe;
+	output reg writeEn, black, done;
+	
+	reg dxE, dyE, wxE, wyE;
+	reg [3:0] current_state, next_state;
+	
+	localparam BEGIN			= 4'd0,
+				  SQUCOUNTX 	= 4'd1,
+				  SQUCOUNTY 	= 4'd2,
+				  WIPECOUNTX 	= 4'd3,
+				  WIPECOUNTY 	= 4'd4,
+				  DONE 			= 4'd5;
+	
+	output [4:0] deltaX, deltaY;
+	
+	Counter dx26(clk, resetn, dxE, deltaX);
+	defparam dx26.bits = 5;
+	defparam dx26.max = 26;
+	Counter dy20(clk, resetn, dyE, deltaY);
+	defparam dy20.bits = 5;
+	defparam dy20.max = 20;
+	
+	output [6:0] wipeX, wipeY;
+	
+	Counter wx104(clk, resetn, wxE, wipeX);
+	defparam wx104.bits = 7;
+	defparam wx104.max = 104;
+	Counter wy80 (clk, resetn, wyE, wipeY);
+	defparam wy80.bits = 7;
+	defparam wy80.max = 80;
+	
+	//Next state logic
+	always@(*) begin
+		case(current_state)
+			BEGIN: if(~wipe)
+						 next_state = plot ? SQUCOUNTX : BEGIN;
+					 else
+						 next_state = WIPECOUNTX;
+			SQUCOUNTX: next_state = (deltaX==5'd24) ? SQUCOUNTY : SQUCOUNTX;
+			SQUCOUNTY: next_state = (deltaY==5'd19) ? DONE : SQUCOUNTX;
+			WIPECOUNTX: next_state = (wipeX==8'd102) ? WIPECOUNTY : WIPECOUNTX;
+			WIPECOUNTY: next_state = (wipeY==7'd79) ? DONE : WIPECOUNTX;
+			DONE: next_state = BEGIN;
+			default: next_state = BEGIN;
+		endcase
+	end
+	
+	//output logic / datapath controls
+	always@(*) begin
+		dxE = 1'b0;
+		dyE = 1'b0;
+		wxE = 1'b0;
+		wyE = 1'b0;
+		writeEn = 1'b0;
+		black = 1'b0;
+		done = 1'b0;
+		
+		case(current_state)
+			SQUCOUNTX: begin
+				writeEn = 1'b1;
+				dxE = 1'b1;
+			end
+			SQUCOUNTY: begin
+				writeEn = 1'b1;
+				dxE = 1'b1;
+				dyE = 1'b1;
+			end
+			WIPECOUNTX: begin
+				writeEn = 1'b1;
+				black = 1'b1;
+				wxE = 1'b1;
+			end
+			WIPECOUNTY: begin
+				writeEn = 1'b1;
+				black = 1'b1;
+				wxE = 1'b1;
+				wyE = 1'b1;
+			end
+			DONE: begin
+				done = 1'b1;
+			end
+		endcase
+	end
+	
+	//update current state
+	always@(posedge clk) begin
+		if(~resetn)
+			current_state <= BEGIN;
+		else
+			current_state <= next_state;
+	end
+endmodule 

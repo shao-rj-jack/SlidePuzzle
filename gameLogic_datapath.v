@@ -1,0 +1,140 @@
+module gameLogic_datapath(
+	input clock, resetN,
+	input [2:0] keyboard_input,
+	input [3:0] b_address,
+					ram_ID,
+	input [3:0] randnum,
+	input ld_begin_rand,
+			ld_next_rand,
+			ld_new_empty,
+			ld_b_addr,
+			ld_other_addr,
+			ld_other_ID,
+			mv_other,
+			mv_b,
+				  
+	output reg [3:0] address_out,
+						  ID_out
+	);
+	
+	localparam direction_no_input	= 3'd0,
+				  direction_up			= 3'd1,
+				  direction_down		= 3'd2,
+				  direction_left		= 3'd3,
+				  direction_right		= 3'd4;
+	
+	reg [3:0] other_address,
+				 Q_b_addr,
+				 Q_other_addr,
+				 Q_other_ID;
+	
+	//Registers 
+	always@(posedge clock) begin
+		if(~resetN) begin
+			other_address	<= 4'b0000;
+			Q_b_addr 		<= 4'b0000;
+			Q_other_addr 	<= 4'b0000;
+			Q_other_ID 		<= 4'b0000;
+		end
+		else begin
+			//Need new register logic
+			//1. Q_b_addr <= 4'b1111
+			//2. Q_other_addr <= rand
+			//3. already exists (ld_other_ID)
+			//5. Q_b_addr <= Q_other_addr;
+			if(ld_begin_rand)
+				Q_b_addr <= 4'b1111;
+				
+			else if(ld_next_rand)
+				Q_other_addr <= randnum;
+			
+			else if(ld_new_empty)
+				Q_b_addr <= Q_other_addr;
+			
+			else if(ld_b_addr)
+				Q_b_addr <= b_address;
+			
+			else if(ld_other_addr)
+				Q_other_addr <= other_address;
+			
+			else if(ld_other_ID)
+				Q_other_ID <= ram_ID;
+			
+			
+			case(keyboard_input)			
+				direction_no_input: begin
+					other_address <= Q_b_addr;
+				end
+				
+				direction_up: begin
+					if(Q_b_addr < 4'd4)
+						other_address <= Q_b_addr;
+					else
+						other_address <= Q_b_addr - 4;
+				end
+				
+				direction_down: begin
+					if(Q_b_addr > 4'd11) 
+						other_address <= Q_b_addr;
+					else
+						other_address <= Q_b_addr + 4;
+				end
+				
+				direction_left: begin
+					if(Q_b_addr % 4 == 0)
+						other_address <= Q_b_addr;
+					else
+						other_address <= Q_b_addr - 1;
+				end
+				
+				direction_right: begin
+					if(Q_b_addr % 4 == 3)
+						other_address <= Q_b_addr;
+					else
+						other_address <= Q_b_addr + 1;
+				end
+				
+				default: other_address <= Q_b_addr;
+				
+			endcase
+			
+		end
+	end
+	
+	//Output logic
+	always@(*) begin
+		//need new output logic
+		//2. address_out = rand
+		//4. already exists (mv_other)
+		//7. already exists (mv_b)
+		if(ld_next_rand) begin
+		
+			address_out = randnum;
+		
+		end
+		else if(ld_other_addr) begin
+		
+			address_out = other_address;
+			
+		end
+		else if(mv_other) begin
+		
+			address_out = Q_b_addr;
+			ID_out = Q_other_ID;
+			
+		end
+		else if(mv_b) begin
+		
+			address_out = Q_other_addr;
+			ID_out = 4'b1111;
+			
+		end
+		else begin
+			address_out = b_address;
+			ID_out = 4'b1111;
+		end
+	end
+	
+endmodule
+
+// im assuming the the different colours/pictures are tied to each id

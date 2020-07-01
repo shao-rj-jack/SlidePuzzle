@@ -1,0 +1,64 @@
+
+
+//SRVD/Homes$/louren17/Desktop/ECE241/ProjectW1/vga_adapter/vga_pll.v
+
+Nov 11 09AM:58:22>: Error in CNX file format.
+
+Error messages are listed in file
+//SRVD/Homes$/louren17/Desktop/ECE241/ProjectW1/vga_adapter/vga_pll.cnxerr.
+
+Can't create the custom megafunction variation file(s)
+
+C:/Users/mdvlo/Documents/ECE241/ProjectW1/vga_adapter/vga_pll.v
+
+Nov 11 07PM:01:42>: Error in CNX file format.
+
+Error messages are listed in file
+C:/Users/mdvlo/Documents/ECE241/ProjectW1/vga_adapter/vga_pll.cnxerr.
+
+Can't create the custom megafunction variation file(s)
+
+//SRVD/Homes$/louren17/Desktop/ECE241/ProjectW1/vga_adapter/vga_pll.v
+
+Nov 15 09AM:31:10>: Error in CNX file format.
+
+Error messages are listed in file
+//SRVD/Homes$/louren17/Desktop/ECE241/ProjectW1/vga_adapter/vga_pll.cnxerr.
+
+Can't create the custom megafunction variation file(s)
+
+D:/ECE241/ProjectW1/vga_adapter/vga_pll.v
+
+Nov 15 10AM:54:53>: Error in CNX file format.
+
+Error messages are listed in file
+D:/ECE241/ProjectW1/vga_adapter/vga_pll.cnxerr.
+
+Can't create the custom megafunction variation file(s)
+
+D:/ECE241/newProject/vga_adapter/vga_pll.v
+
+Nov 17 09PM:19:16>: Error in CNX file format.
+
+Error messages are listed in file
+D:/ECE241/newProject/vga_adapter/vga_pll.cnxerr.
+
+Can't create the custom megafunction variation file(s)
+
+C:/Users/mdvlo/Documents/ECE241/ProjectW2/vga_adapter/vga_pll.v
+
+Nov 19 09AM:46:07>: Error in CNX file format.
+
+Error messages are listed in file
+C:/Users/mdvlo/Documents/ECE241/ProjectW2/vga_adapter/vga_pll.cnxerr.
+
+Can't create the custom megafunction variation file(s)
+
+C:/Users/mdvlo/Documents/ECE241/ProjectW3/vga_adapter/vga_pll.v
+
+Nov 25 08PM:02:53>: Error in CNX file format.
+
+Error messages are listed in file
+C:/Users/mdvlo/Documents/ECE241/ProjectW3/vga_adapter/vga_pll.cnxerr.
+
+Can't create the custom megafunction variation file(s)

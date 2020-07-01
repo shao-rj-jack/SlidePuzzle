@@ -1,0 +1,3 @@
+Info (10281): Verilog HDL Declaration information at gameLogic.v(14): object "HEX5" differs only in case from object "hex5" in the same scope File: //SRVC/Homes$/shaoren/Desktop/ProjectW3/gameLogic.v Line: 14
+Info (10281): Verilog HDL Declaration information at gameLogic.v(13): object "HEX4" differs only in case from object "hex4" in the same scope File: //SRVC/Homes$/shaoren/Desktop/ProjectW3/gameLogic.v Line: 13
+Info (10281): Verilog HDL Declaration information at basicDisplay.v(225): object "done" differs only in case from object "DONE" in the same scope File: //SRVC/Homes$/shaoren/Desktop/ProjectW3/vga_display/basicDisplay.v Line: 225

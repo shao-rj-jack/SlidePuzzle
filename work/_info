@@ -1,0 +1,232 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/mdvlo/Documents/ECE241/ProjectW3
+vbasicDisplay
+Z0 !s110 1574982379
+!i10b 1
+!s100 1B5M1XMOK`6oNh9aoeW[83
+Ib5FCRaD6QF9BY]ZL6@Did2
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 dD:/ECE241/ProjectW3
+Z3 w1574980864
+Z4 8vga_display/basicDisplay.v
+Z5 Fvga_display/basicDisplay.v
+L0 3
+Z6 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z7 !s108 1574982379.000000
+Z8 !s107 vga_display/basicDisplay.v|
+Z9 !s90 -reportprogress|300|vga_display/basicDisplay.v|
+!i113 1
+Z10 tCvgOpt 0
+nbasic@display
+vCounter
+R0
+!i10b 1
+!s100 FU3KSFzg79]^M^97CjnG72
+I9TizVH=J^aSQik^H``fN23
+R1
+R2
+w1574176912
+8Counter.v
+FCounter.v
+L0 3
+R6
+r1
+!s85 0
+31
+R7
+!s107 Counter.v|
+!s90 -reportprogress|300|Counter.v|
+!i113 1
+R10
+n@counter
+vdisplay_control
+R0
+!i10b 1
+!s100 6>1m;m1^<7ZRLFM]@m:TW2
+IRYh0cNVEKB@?@R`]FR9b@0
+R1
+R2
+R3
+R4
+R5
+L0 210
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vdisplay_datapath
+R0
+!i10b 1
+!s100 EbK?MVe89GfL6XZZeN1^I2
+IQ7mRKD8>2BVFI6LVR2X[30
+R1
+R2
+R3
+R4
+R5
+L0 134
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vsprite0rom
+Z11 !s110 1574982381
+!i10b 1
+!s100 688oVbZg275ANdn8OEbN60
+IKTBcLb:CWZ;_i_9PLKc@S0
+R1
+R2
+w1574982026
+8vga_display/sprite0rom.v
+Fvga_display/sprite0rom.v
+Z12 L0 39
+R6
+r1
+!s85 0
+31
+Z13 !s108 1574982381.000000
+!s107 vga_display/sprite0rom.v|
+!s90 -reportprogress|300|vga_display/sprite0rom.v|
+!i113 1
+R10
+vsprite1rom
+R11
+!i10b 1
+!s100 cC]7T>O]SB9nO]HI3eAH41
+IlhO:`MdIcKYJB@koaOl>i0
+R1
+R2
+w1574982028
+8vga_display/sprite1rom.v
+Fvga_display/sprite1rom.v
+R12
+R6
+r1
+!s85 0
+31
+R13
+!s107 vga_display/sprite1rom.v|
+!s90 -reportprogress|300|vga_display/sprite1rom.v|
+!i113 1
+R10
+vsprite2rom
+!s110 1574982382
+!i10b 1
+!s100 756G_do9NfU3mOG]SeVJ=0
+ITLD;DmG3C5FBTe0mknY?:2
+R1
+R2
+w1574982024
+8vga_display/sprite2rom.v
+Fvga_display/sprite2rom.v
+R12
+R6
+r1
+!s85 0
+31
+!s108 1574982382.000000
+!s107 vga_display/sprite2rom.v|
+!s90 -reportprogress|300|vga_display/sprite2rom.v|
+!i113 1
+R10
+vvga_adapter
+Z14 !s110 1574982380
+!i10b 1
+!s100 AJ;8TKU4d4KYdTaZ[2>I30
+IjDkUlFFO];Vo`A0R=DRbc0
+R1
+R2
+w1574893988
+8vga_adapter/vga_adapter.v
+Fvga_adapter/vga_adapter.v
+L0 78
+R6
+r1
+!s85 0
+31
+Z15 !s108 1574982380.000000
+!s107 vga_adapter/vga_adapter.v|
+!s90 -reportprogress|300|vga_adapter/vga_adapter.v|
+!i113 1
+R10
+vvga_address_translator
+R14
+!i10b 1
+!s100 C0DfW0_9[5co`@boeR]Pi1
+IaiBUUYXiHAM0JfWnMDc6G3
+R1
+R2
+Z16 w1573828182
+8vga_adapter/vga_address_translator.v
+Fvga_adapter/vga_address_translator.v
+L0 4
+R6
+r1
+!s85 0
+31
+R15
+!s107 vga_adapter/vga_address_translator.v|
+!s90 -reportprogress|300|vga_adapter/vga_address_translator.v|
+!i113 1
+R10
+vvga_controller
+R14
+!i10b 1
+!s100 85k=P:Ue]TQa7]Kkm6dL@3
+Ic_2mo8L;0:ih5f>j^4HJj1
+R1
+R2
+R16
+8vga_adapter/vga_controller.v
+Fvga_adapter/vga_controller.v
+L0 9
+R6
+r1
+!s85 0
+31
+R15
+!s107 vga_adapter/vga_controller.v|
+!s90 -reportprogress|300|vga_adapter/vga_controller.v|
+!i113 1
+R10
+vvga_pll
+R11
+!i10b 1
+!s100 4XSTjD`VEiamX^n1@5J`b3
+IZea[l[N44f];L>G1k=DX[2
+R1
+R2
+R16
+8vga_adapter/vga_pll.v
+Fvga_adapter/vga_pll.v
+L0 36
+R6
+r1
+!s85 0
+31
+R13
+!s107 vga_adapter/vga_pll.v|
+!s90 -reportprogress|300|vga_adapter/vga_pll.v|
+!i113 1
+R10
